@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import Name from "./../components/Name";
 import ColorPicker from "./../components/ColorPicker";
-
 import randomColor from "randomcolor";
+import WindowSize from "./../components/WindowSize";
+import Canvas from "./../components/Canvas";
 
 export default function WebPages() {
   const [colors, setColors] = useState([]);
@@ -20,17 +21,23 @@ export default function WebPages() {
   }, []);
 
   return (
-    <header style={{ borderTop: `10px solid ${activeColor}` }}>
-      <div className="app">
-        <Name />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <ColorPicker
-          colors={colors}
-          activeColor={activeColor}
-          setActiveColor={setActiveColor}
-        />
-      </div>
-    </header>
+    <div className="app">
+      <header style={{ borderTop: `10px solid ${activeColor}` }}>
+        <div>
+          <Name />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <ColorPicker
+            colors={colors}
+            activeColor={activeColor}
+            setActiveColor={setActiveColor}
+          />
+        </div>
+      </header>
+      {activeColor && (
+        <Canvas color={activeColor} height={window.innerHeight} />
+      )}
+      <WindowSize />
+    </div>
   );
 }
