@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import Name from "./../components/Name";
 import ColorPicker from "./../components/ColorPicker";
@@ -20,9 +20,14 @@ export default function WebPages() {
       });
   }, []);
 
+  const headerRef = useRef({ offsetHeight: 0 });
+
   return (
     <div className="app">
-      <header style={{ borderTop: `10px solid ${activeColor}` }}>
+      <header
+        ref={headerRef}
+        style={{ borderTop: `10px solid ${activeColor}` }}
+      >
         <div>
           <Name />
         </div>
@@ -35,7 +40,10 @@ export default function WebPages() {
         </div>
       </header>
       {activeColor && (
-        <Canvas color={activeColor} height={window.innerHeight} />
+        <Canvas
+          color={activeColor}
+          height={window.innerHeight - headerRef.current.offsetHeight}
+        />
       )}
       <WindowSize />
     </div>
