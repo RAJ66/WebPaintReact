@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 // import { Container } from './styles';
 
-export default function Name() {
+export default React.memo(() => {
+  console.log("rendered");
   const [name, setName] = useState("");
   return (
     <label className="header-name">
@@ -12,7 +13,6 @@ export default function Name() {
         onClick={e => e.target.setSelectionRange(0, e.target.value.length)}
         placeholder="Untitled"
       />
-      <h1>{name}</h1>
     </label>
   );
-}
+});

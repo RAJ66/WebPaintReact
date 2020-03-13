@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 
 import Name from "./../components/Name";
 import ColorPicker from "./../components/ColorPicker";
 import randomColor from "randomcolor";
 import WindowSize from "./../components/WindowSize";
 import Canvas from "./../components/Canvas";
+import RefreshButton from "./../components/RefreshButton";
 
 export default function WebPages() {
   const [colors, setColors] = useState([]);
   const [activeColor, setActiveColor] = useState("");
 
-  useEffect(() => {
+  const getColors = useCallback(() => {
     const baseColor = randomColor().slice(1);
     fetch(`https://www.thecolorapi.com/scheme?hex=${baseColor}&mode=monochrome`)
       .then(res => res.json())
@@ -19,6 +20,7 @@ export default function WebPages() {
         setActiveColor(res.colors[0].hex.value);
       });
   }, []);
+  useEffect(getColors, []);
 
   const headerRef = useRef({ offsetHeight: 0 });
 
@@ -37,6 +39,7 @@ export default function WebPages() {
             activeColor={activeColor}
             setActiveColor={setActiveColor}
           />
+          <RefreshButton cb={getColors} />
         </div>
       </header>
       {activeColor && (
